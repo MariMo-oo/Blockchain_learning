@@ -1,6 +1,7 @@
 import time
 import hashlib
 import random
+import csv
 
 def sha256(input_string):
     return hashlib.sha256(input_string.encode()).hexdigest()
@@ -13,41 +14,34 @@ def create_block(parent_hash):
     return parent_hash, timestamp, nonce
 
 
-def generate_blockchain(num_blocks):
-    #Todo write logic to store as csv
-    blockchain = []
+def generate_blockchain(num_blocks, filename):
 
-    parent_hash = "0" * 64
-    for i in range(num_blocks):
-        parent_hash, timestamp, nonce = create_block(parent_hash)
+    with open(filename, "w", newline="") as file:
         
-        header_string = parent_hash + str(timestamp) + str(nonce)
+        writer = csv.writer(file)
+        writer.writerow(["block_height", "parent_hash", "timestamp", "nonce"])
 
-        block_hash = sha256(header_string)
+        parent_hash = "0" * 64
+        for height in range(num_blocks):
+            parent_hash, timestamp, nonce = create_block(parent_hash)
 
-        block = {
-            "block_num": i+1,
-            "parent_hash": parent_hash,
-            "timestamp":timestamp,
-            "nonce": nonce,
-            "hash": block_hash
-        }
+            writer.writerow([height, parent_hash, timestamp, nonce])
+            
+            header_string = parent_hash + str(timestamp) + str(nonce)
+            block_hash = sha256(header_string)
 
-        blockchain.append(block)
 
-        parent_hash = block_hash
+            parent_hash = block_hash
 
-    return blockchain
+            time.sleep(1) # to show increasing timestamp
+
+
 
 if __name__ == "__main__":
-    NUM_BLOCKS = 10  # minimum required
+    NUM_BLOCKS = 10
+    filename = "blockchain.csv"
 
-    blockchain = generate_blockchain(NUM_BLOCKS)
+    blockchain = generate_blockchain(NUM_BLOCKS,filename)
 
-    for block in blockchain:
-        print(f"Block {block['block_num']}")
-        print(f"Parent Hash : {block['parent_hash']}")
-        print(f"Timestamp   : {block['timestamp']}")
-        print(f"Nonce       : {block['nonce']}")
-        print(f"Hash        : {block['hash']}")
+    print("blockchain.csv file generated")
 
