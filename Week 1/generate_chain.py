@@ -3,7 +3,7 @@ import hashlib
 import random
 import csv
 
-def sha256(input_string):
+def sha256_hash(input_string):
     return hashlib.sha256(input_string.encode()).hexdigest()
 
 
@@ -28,7 +28,7 @@ def generate_blockchain(num_blocks, filename):
             writer.writerow([height, parent_hash, timestamp, nonce])
             
             header_string = parent_hash + str(timestamp) + str(nonce)
-            block_hash = sha256(header_string)
+            block_hash = sha256_hash(header_string)
 
 
             parent_hash = block_hash
