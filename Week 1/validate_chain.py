@@ -14,7 +14,7 @@ def validate_blockchain(filename):
                 return
             
             if int(block["block_height"]) != i:
-                print(f"Invalid block at {i}, block height not previous block height + 1")
+                print(f"Invalid block at {i}, block height is not previous block height + 1")
                 return
 
             if i>0:
