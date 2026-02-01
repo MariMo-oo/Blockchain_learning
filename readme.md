@@ -39,3 +39,9 @@ When the program starts, you will be prompted for the following inputs:
 **Difficulty Experiment Option**
 - Enter `Y` to run the difficulty experiment and generate a graph
 - Enter `N` to only generate the blockchain CSV file
+
+### 3. Run the validate Script
+```bash
+python validate_chain.py
+```
+This script validates and reports if the chain is valid.
